@@ -22,8 +22,12 @@ app.get('/', (request, response) => {
     response.status(200).send("This is not why you're here. Head to /user/:id and replace :id with your user id")
 })
 
-const userRouter = require('./routes/user');
-app.use('/user',userRouter);
+const practitionerRouter = require('./routes/practitioner');
+app.use('/practitioner',practitionerRouter);
+const patientRouter = require('./routes/patient');
+app.use('/patient',patientRouter);
+const appointmentRouter = require('./routes/appointment');
+app.use('/appointment',appointmentRouter);
 
 /**Start listening */
 app.listen(PORT, () => {
