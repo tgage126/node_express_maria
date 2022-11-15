@@ -1,12 +1,14 @@
 const express = require('express');
 const dotenv = require('dotenv');
+var cors = require('cors')
+
 
 dotenv.config({path: '.env-local'});
 
 const PORT = process.env.PORT || '3001';
 
 const app = express();
-
+app.use(cors()) // Use this after the variable declaration
 
 /**
  * Middleware
