@@ -1,7 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const bodyParser = require('body-parser'); // Import the body-parser package
 var cors = require('cors')
-
 
 dotenv.config({path: '.env-local'});
 
@@ -13,8 +13,10 @@ app.use(cors()) // Use this after the variable declaration
 /**
  * Middleware
  */
-app.use(express.json());
-app.use(express.urlencoded({extended:false}));
+
+// Use the body-parser middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
 
 /**
  * Routes

@@ -17,7 +17,7 @@ router.get('/:id', async function(req,res){
     res.status(200).json({id:req.params.id})
 });
 
-//get all practitioners
+//get all practitioners         
 router.get('/all/:id', async function(req,res){
     try {
         const sqlQuery = 'SELECT * FROM practitioners';

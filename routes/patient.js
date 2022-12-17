@@ -2,33 +2,62 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../helpers/database');
 
-
-
-router.get('/:id', async function(req,res){
-    try {
-        const sqlQuery = 'SELECT patient_id, name_last, name_first FROM patient WHERE patient_id=?';
-        const rows = await pool.query(sqlQuery, req.params.id);
-        res.status(200).json(rows);
-    } catch (error) {
-        res.status(400).send(error.message)
+  
+// Assign route
+router.use('/query', (req, res, next) => {
+  const filters = req.query;
+  const filteredUsers = pool.filter(patient_id => {
+    let isValid = true;
+    for (key in filters) {
+      console.log(key, patient_id[key], filters[key]);
+      isValid = isValid && user[key] == filters[key];
     }
-
-
-    res.status(200).json({id:req.params.id})
+    return isValid;
+  });
+  const sqlQuery = 'SELECT * FROM patient WHERE' + filteredUsers;
+  const rows = pool.query(sqlQuery, req.params.id);
+  res.send(rows);
 });
 
-//get all practitioners         
-router.get('/all/:id', async function(req,res){
-    try {
+/* 
+router.get('/:id', async function(req,res){
+   
+        const sqlQuery = 'SELECT patient_id, name_last, name_first FROM patient WHERE name_last=?';
+        const rows = await pool.query(sqlQuery, req.params.id);
+        console.log(sqlQuery);
+        console.log(rows);
+        res.send({ status: "OK", data: sqlQuery.json, data2: rows});
+    
+});
+*/
+//get all patient    
+router.get('/all', async function(req,res){
+
         const sqlQuery = 'SELECT * FROM patient';
         const rows = await pool.query(sqlQuery, req.params.id);
-        res.status(200).json(rows);
-    } catch (error) {
-        res.status(400).send(error.message)
-    }
+        console.log(sqlQuery);
+        console.log(rows);
+        res.send({rows});
+ 
+});
+//get patient by name + id       
+router.get('/name', async function(req,res){
+   
+    const sqlQuery = 'SELECT patient_id, name_last, name_first FROM patient';
+    const rows = await pool.query(sqlQuery, req.params.id);
+    console.log(sqlQuery);
+    console.log(rows);
+    res.send({ status: "OK", data: rows});
+});
 
-
-    res.status(200).json({id:req.params.id})
+//get patient by name        
+router.get('/name/:id', async function(req,res){
+   
+        const sqlQuery = 'SELECT name_last, patient_id FROM patient WHERE name_last=?';
+        const rows = await pool.query(sqlQuery, req.params.id);
+        console.log(sqlQuery);
+        console.log(rows);
+        res.send({rows});
 });
 
 /*
